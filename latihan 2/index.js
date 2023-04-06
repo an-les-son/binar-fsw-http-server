@@ -1,4 +1,5 @@
 const http = require("http");
+const fs = require("fs");
 const PORT = 4000;
 
 // function yang ada dalam parameter namanya callback
@@ -8,8 +9,15 @@ http
     // nambahin rute / routes
     const url = req.url;
     if (url == "/") {
-      res.write("ini dari routes utama");
-      res.end();
+      fs.readFile("./index.html", null, (err, data) => {
+        if (err) {
+          res.writeHead(404);
+          res.write("something not found");
+        } else {
+          res.write(data);
+        }
+        res.end();
+      });
     } else if (url == "/anjar") {
       res.write("ini dari routes anjar");
       res.end();
